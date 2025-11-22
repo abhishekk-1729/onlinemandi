@@ -551,7 +551,7 @@ class _OnlineMandiAppState extends State<OnlineMandiApp> {
     return GridView.count(
       padding: const EdgeInsets.all(16),
       crossAxisCount: 2,
-      childAspectRatio: 1.0, // Changed aspect ratio from .8 to 1.0
+      childAspectRatio: 1.0, 
       children: vegetables.map<Widget>((Vegetable veg) {
         return GestureDetector(
           onTap: () => _showVegetablePopup(veg),
@@ -565,31 +565,35 @@ class _OnlineMandiAppState extends State<OnlineMandiApp> {
                 BoxShadow(blurRadius: 10, color: Colors.black12),
               ],
             ),
-            child: Column(
-              mainAxisAlignment:
-                  MainAxisAlignment.center, // Center content vertically
-              children: <Widget>[
-                Text(veg.emoji, style: const TextStyle(fontSize: 50)),
-                // const SizedBox(height: 5), // REMOVED THIS LINE to prevent overflow
-                Text(
-                  lang == 'en' ? veg.nameEn : veg.nameHi,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+            // FIX: Wrap the Column with FittedBox to prevent overflow
+            child: FittedBox(
+              fit: BoxFit.scaleDown, // Scales down only if content is too large
+              child: Column(
+                mainAxisAlignment:
+                    MainAxisAlignment.center, // Center content vertically
+                children: <Widget>[
+                  Text(veg.emoji, style: const TextStyle(fontSize: 50)),
+                  // const SizedBox(height: 5), // REMOVED THIS LINE to prevent overflow
+                  Text(
+                    lang == 'en' ? veg.nameEn : veg.nameHi,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                Text(
-                  "₹${veg.marketPrice}",
-                  style: const TextStyle(
-                    decoration: TextDecoration.lineThrough,
-                    color: Colors.red,
+                  Text(
+                    "₹${veg.marketPrice}",
+                    style: const TextStyle(
+                      decoration: TextDecoration.lineThrough,
+                      color: Colors.red,
+                    ),
                   ),
-                ),
-                Text(
-                  "₹${veg.ourPrice}/kg",
-                  style: const TextStyle(fontSize: 18, color: Colors.green),
-                ),
-              ],
+                  Text(
+                    "₹${veg.ourPrice}/kg",
+                    style: const TextStyle(fontSize: 18, color: Colors.green),
+                  ),
+                ],
+              ),
             ),
           ),
         );
